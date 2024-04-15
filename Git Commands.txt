@@ -1,0 +1,17 @@
+command to check the branch 
+git branch
+to see remote branches 
+git branch -r
+
+to see all local and remote branches 
+git branch -a
+
+create a new branch  as well as replacing the current branch
+git checkout -b newbranch
+
+switch to a branch which is from a Remote rep
+1. get a list of all branches from the remote 
+git pull
+
+2. switch to branch
+git checkout --track origin/testmybranch
