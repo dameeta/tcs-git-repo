@@ -1,0 +1,305 @@
+Create file Using Files Class
+Files class provides createFile(Path filePath, FileAttribute<?>… attrs) method to create file using specified Path. Let’s have a look at the below example program.
+
+package com.pack.examples;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Java Create file using Files class
+ * 
+ * @author test
+ *
+ */
+public class FilesCreateFileExample {
+
+	public static void main(String[] args) {
+		
+		//initialize Path object
+		Path path = Paths.get("D:/data/file.txt");
+		//create file
+		try {
+			Path createdFilePath = Files.createFile(path);
+			System.out.println("File Created at Path : "+createdFilePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+Output of the above program is below:
+
+File Created at Path : D:\data\file.txt
+Create Directories Using Files Class
+Files class provides createDirectory(Path dir, FileAttribute<?>… attrs) and createDirectories(Path dir, FileAttribute<?>… attrs) methods to create single and multi level directories using specified Path. Let’s have a look at the below example program.
+
+package com.pack.examples;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Java Create directories using Files class
+ * 
+ * @author test
+ *
+ */
+public class FilesCreateDirectoriesExample {
+
+	public static void main(String[] args) {
+		// initialize Path objects
+		Path path1 = Paths.get("D:/test");
+		Path path2 = Paths.get("D:/test/java7");
+		Path path3 = Paths.get("D:/test/java7/Files");
+		
+		try {
+			Path createdDir1 = Files.createDirectory(path1);//first level directory
+			Path createdDir2 = Files.createDirectory(path2);//second level directory
+			Path createdDir3 = Files.createDirectory(path3);//all level directories
+			System.out.println("First Level Directory Created at Path : "+createdDir1);
+			System.out.println("Second Level Directory Created at Path : "+createdDir2);
+			System.out.println("All Level Directories Created at Path : "+createdDir3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+Output of the above program is below:
+
+First Level Directory Created at Path : D:\test
+Second Level Directory Created at Path : D:\test\java7
+All Level Directories Created at Path : D:\test\java7\Files
+Convert File to Path and Vice Versa
+File and Path objects can be converted to each other using below methods:
+
+File file = new File(“D:/data/file.txt”);
+
+Path path = file.toPath();
+
+File file1 = path.toFile();
+Read File Data using Files Class
+Files class provides following methods for reading file.
+
+readAllBytes(Path path): This method reads all the bytes from the file at given path and returns the byte array containing the bytes read from the file.
+readAllLines(Path path,Charsetcs): This method read all lines from the file at given path and returns the List containing the lines from the file.
+Let’s have a look at the below example program.
+
+package com.pack.examples;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+/**
+ * Java Files read file example
+ * 
+ * @author test
+ *
+ */
+public class FilesReadFileExample {
+
+	public static void main(String[] args) {
+		
+		Path path = Paths.get("D:/data/file.txt");
+		try {
+			byte[] bs = Files.readAllBytes(path);
+			List<String> strings = Files.readAllLines(path);
+			
+			System.out.println("Read bytes: \n"+new String(bs));
+			System.out.println("Read lines: \n"+strings);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+Output of above program is below:
+
+Read bytes: 
+Hello world
+This is Read file example
+Thank you
+Read lines: 
+[Hello world, This is Read file example, Thank you]
+Copy File using Files Class
+Files class provide copy(Path source, Path target, CopyOption… options) methodthat copies given source file to specified target file and it returns path of target file. Let’s have a look at the below example program:
+
+package com.pack.examples;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+/**
+ * Java Files copy file example
+ * 
+ * @author test
+ *
+ */
+public class FilesCopyFileExample {
+
+	public static void main(String[] args) {
+		Path sourcePath = Paths.get("D:/data/sourceFile.txt");
+		Path targetPath = Paths.get("D:/data/targetFile.txt");
+		
+		try {
+			Path path = Files.copy(sourcePath, targetPath,StandardCopyOption.REPLACE_EXISTING);//copy with REPLACE_EXISTING option
+			System.out.println("Target file Path : "+path);
+			System.out.println("Copied Content : \n"+new String(Files.readAllBytes(path)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+Output of above program is below:
+
+Target file Path : D:\data\targetFile.txt
+Copied Content : 
+Hello world
+This is Copy file example
+Thank you
+Move File using Files Class
+Java Files class provides move(Path source, Path target, CopyOption… options) method that move or rename a source file to target file and returns the path of target file. Option parameter may include following: REPLACE_EXISTING: It means if the target file exists then replaces it if it is not a non-empty directory. ATOMIC_MOVE: It means move is performed as atomic file system operation and all other options are ignored. This method throws FileAleadyExistsException if the target file exists but cannot be replaced because the REPLACE_EXISTING option is not specified. This method throws DirectoryNotEmptyException if REPlACE_EXISTING option is specified but the file cannot be replaced because it is a non-empty directory. Let’s have a look at the below example program:
+
+package com.pack.examples;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+/**
+ * Java Files move file example
+ * 
+ * @author test
+ *
+ */
+public class FilesMoveFileExample {
+
+	public static void main(String[] args) {
+		Path sourcePath = Paths.get("D:/data/sourceFile.txt");
+		Path targetPath = Paths.get("D:/data/targetFile.txt");
+		try {
+			Path path = Files.move(sourcePath, targetPath,StandardCopyOption.REPLACE_EXISTING);//move with REPLACE_EXISTING option
+			System.out.println("Target file Path : "+path);
+			System.out.println("Moved Content : \n"+new String(Files.readAllBytes(path)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+Write File using Files Class
+Java NIO Files class provides write(Path path, byte[] bytes, OpenOption… options) method that writes bytes to a file at specified path. The options parameter specifies how the file is created or opened. If no option is specified then it consider CREATE, TRUNCATE_EXISTING and WRITE options by default. This means it opens the file for writing and creates if the file does not exist or truncate existing file to size of 0 if it exists. All the bytes in byte array are written to the file. This method ensures that the file is closed when all the bytes have been written and returns the path of written file.
+
+package com.pack.examples;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Java Files write file example
+ * 
+ * @author test
+ *
+ */
+public class FilesWriteFileExample {
+
+	public static void main(String[] args) {
+		Path path = Paths.get("D:/data/test.txt");
+		try {
+			String str = "This is write file Example";
+			byte[] bs = str.getBytes();
+			Path writtenFilePath = Files.write(path, bs);
+			System.out.println("Written content in file:\n"+ new String(Files.readAllBytes(writtenFilePath)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+Walk File Tree
+Files class provides walkFileTree(Path start, FileVisitor<? Super Path> visitor) method that is used to traverse the directory. It traverses the directory at specified path recursively and returns the starting file.
+
+package com.pack.examples;
+
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+
+/**
+ * Java Files walk file tree example
+ * 
+ * @author test
+ *
+ */
+public class FilesWalkFileTreeExample {
+
+	public static void main(String[] args) {
+		Path path = Paths.get("D:/test");
+		try {
+			Files.walkFileTree(path, new FileVisitor<Path>() {
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					System.out.println("Post Visit Directory: "+dir);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+					System.out.println("Pre Visit Directory: "+dir);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					System.out.println("Visit File: "+file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+					System.out.println("Visit Failed File: "+file);
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+Output of above program is below:
+
+Pre Visit Directory: D:\test
+Pre Visit Directory: D:\test\java6
+Pre Visit Directory: D:\test\java6\Files
+Visit File: D:\test\java6\Files\file.txt.txt
+Post Visit Directory: D:\test\java6\Files
+Post Visit Directory: D:\test\java6
+Pre Visit Directory: D:\test\java7
+Pre Visit Directory: D:\test\java7\Files
+Visit File: D:\test\java7\Files\file.txt.txt
+Post Visit Directory: D:\test\java7\Files
+Post Visit Directory: D:\test\java7
+Pre Visit Directory: D:\test\java8
+Pre Visit Directory: D:\test\java8\Files
+Visit File: D:\test\java8\Files\file.txt.txt
+Post Visit Directory: D:\test\java8\Files
+Post Visit Directory: D:\test\java8
+Post Visit Directory: D:\test
